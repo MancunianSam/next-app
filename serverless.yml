@@ -17,6 +17,10 @@ custom:
     routes:
       - src: ./assets/robots.txt
         path: robots.txt
+      - src: ./assets/images/govuk-logotype-crown.png
+        path: govuk-logotype-crown.png
+      - src: ./assets/gov.css
+        path: gov.css
       - src: post
         path: post/{slug}
         request:
