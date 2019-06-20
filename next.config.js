@@ -2,11 +2,11 @@ module.exports = {
   webpack: config => {
     // Fixes npm packages that depend on `fs` module
     config.node = {
-      fs: 'empty'
-    }
+      fs: "empty"
+    };
 
-    return config
+    return config;
   },
-    target: 'serverless',
-    assetPrefix: "https://s3.amazonaws.com/assets.tdr.tna.com"
-}
+  target: "serverless",
+  assetPrefix: "https://s3-eu-west-2.amazonaws.com/assets.tdr.tna.com"
+};

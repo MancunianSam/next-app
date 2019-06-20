@@ -12,6 +12,7 @@ plugins:
 
 custom:
   serverless-nextjs:
+    assetsBucketName: assets.tdr.tna.com
     staticDir: ./assets
     routes:
       - src: ./assets/robots.txt
