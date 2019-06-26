@@ -5,6 +5,7 @@ import Nav from "../components/nav";
 
 const Upload = ({ id, token }) => {
   const [fileUpdate, setFileUpdate] = React.useState([]);
+  const [uploaded, setUploaded] = React.useState(false);
   const getCredentials = async () => {
     return new Promise((resolve, reject) => {
       const IdentityPoolId = "eu-west-2:4b26364a-3070-4f98-8e86-1e33a1b54d85";
@@ -17,7 +18,7 @@ const Upload = ({ id, token }) => {
           [cognitoLoginId]: token
         }
       });
-      AWS.config.getCredentials(function(err) {
+      AWS.config.getCredentials(function (err) {
         if (err === undefined || err === null) {
           resolve();
         } else {
@@ -43,8 +44,11 @@ const Upload = ({ id, token }) => {
           Bucket
         },
         {},
-        function(err) {
+        function (err) {
           console.log(err);
+          if (err === null) {
+            setUploaded(true)
+          }
         }
       );
     });
@@ -78,19 +82,26 @@ const Upload = ({ id, token }) => {
             }
           }}
         />
-        <button onClick={upload}>Upload</button>
+        <button className="govuk-button" onClick={upload}>Upload</button>
+        {uploaded && 
+        <div className="govuk-panel govuk-panel--confirmation">
+          <h1 className="govuk-panel__title">
+            Files Uploaded
+          </h1>
+          </div>
+          }
       </div>
     </>
-  );
-};
-
-Upload.getInitialProps = async function({ req, query }) {
-  const { id } = query;
-  const token = req.headers.cookie.split("=")[1];
+      );
+    };
+    
+Upload.getInitialProps = async function({req, query }) {
+  const {id} = query;
+        const token = req.headers.cookie.split("=")[1];
   return {
-    id,
-    token
-  };
-};
-
-export default Upload;
+          id,
+        token
+      };
+    };
+    
+    export default Upload;

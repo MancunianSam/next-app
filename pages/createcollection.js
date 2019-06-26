@@ -4,7 +4,7 @@ import Nav from "../components/nav";
 
 const CreateCollection = props => {
   return (
-    <div className="govuk-width-container">
+    <div >
       <Nav />
       <Head>
         <link
@@ -17,7 +17,7 @@ const CreateCollection = props => {
           <div className="govuk-grid-column-two-thirds">
             <h1 className="govuk-heading-l">{props.title}</h1>
             <form
-              action="https://m6t2cgd8uc.execute-api.eu-west-2.amazonaws.com/dev/createcollection"
+              action="https://rn9sl8cy7f.execute-api.eu-west-2.amazonaws.com/dev/collections"
               method="POST"
             >
               <div className="govuk-form-group">
