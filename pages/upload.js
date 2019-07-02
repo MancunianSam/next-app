@@ -59,7 +59,7 @@ const Upload = ({ id, token }) => {
       <Nav />
       <Head>
         <link
-          href="https://s3.eu-west-2.amazonaws.com/assets.tdr.tna.com/assets/gov.css"
+          href="https://s3.eu-west-2.amazonaws.com/assets.tdr.tna/assets/gov.css"
           rel="stylesheet"
         />
       </Head>
@@ -83,25 +83,25 @@ const Upload = ({ id, token }) => {
           }}
         />
         <button className="govuk-button" onClick={upload}>Upload</button>
-        {uploaded && 
-        <div className="govuk-panel govuk-panel--confirmation">
-          <h1 className="govuk-panel__title">
-            Files Uploaded
+        {uploaded &&
+          <div className="govuk-panel govuk-panel--confirmation">
+            <h1 className="govuk-panel__title">
+              Files Uploaded
           </h1>
           </div>
-          }
+        }
       </div>
     </>
-      );
-    };
-    
-Upload.getInitialProps = async function({req, query }) {
-  const {id} = query;
-        const token = req.headers.cookie.split("=")[1];
+  );
+};
+
+Upload.getInitialProps = async function ({ req, query }) {
+  const { id } = query;
+  const token = req.headers.cookie.split("=")[1];
   return {
-          id,
-        token
-      };
-    };
-    
-    export default Upload;
+    id,
+    token
+  };
+};
+
+export default Upload;

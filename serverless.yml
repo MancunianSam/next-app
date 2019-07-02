@@ -1,4 +1,4 @@
-service: basic-next-serverless-app
+service: prototype-next-js
 
 provider:
   name: aws
@@ -7,17 +7,16 @@ provider:
   stage: dev
   region: eu-west-2
   environment: 
-    REDIRECT_URL: https://9ofer4y2x6.execute-api.eu-west-2.amazonaws.com/dev/
+    REDIRECT_URL: https://wq2djqdgc3.execute-api.eu-west-2.amazonaws.com/dev
     CLIENT_ID: 7tmk95dur3gjqklinuvevgahl9
 
 plugins:
   - serverless-nextjs-plugin
-  - serverless-offline
 
 custom:
   serverless-nextjs:
     customHandler: ./config/custom.js
-    assetsBucketName: assets.tdr.tna.com
+    assetsBucketName: assets.tdr.tna
     staticDir: ./assets
     routes:
       - src: ./assets/robots.txt
@@ -32,9 +31,3 @@ custom:
           parameters:
             paths:
               slug: true
-
-package:
-  # exclude everything
-  # page handlers are automatically included by the plugin
-  exclude:
-    - ./**

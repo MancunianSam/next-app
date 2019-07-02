@@ -5,7 +5,7 @@ const Nav = props => (
     <div className="govuk-header__container govuk-width-container">
       <div className="govuk-header__logo">
         <a
-          href="https://9ofer4y2x6.execute-api.eu-west-2.amazonaws.com/dev/"
+          href={process.env.REDIRECT_URL}
           className="govuk-header__link govuk-header__link--homepage"
         >
           <span className="govuk-header__logotype">
@@ -26,7 +26,7 @@ const Nav = props => (
 
               <img
                 alt="crown logo"
-                src="https://s3.eu-west-2.amazonaws.com/assets.tdr.tna.com/assets/images/govuk-logotype-crown.png"
+                src="https://s3.eu-west-2.amazonaws.com/assets.tdr.tna/assets/images/govuk-logotype-crown.png"
                 className="govuk-header__logotype-crown-fallback-image"
               />
             </svg>
@@ -36,7 +36,7 @@ const Nav = props => (
       </div>
       <div className="govuk-header__content">
         <a
-          href="https://9ofer4y2x6.execute-api.eu-west-2.amazonaws.com/dev/"
+          href={process.env.REDIRECT_URL}
           className="govuk-header__link govuk-header__link--service-name"
         >
           Transfer Digital Records
@@ -60,7 +60,7 @@ const Nav = props => (
                 props.path === "/get-collections" ? "--active" : ""
                 }`}
             >
-              <a className="govuk-header__link" href="getcollection">
+              <a className="govuk-header__link" href={`${process.env.REDIRECT_URL}/getcollection`}>
                 View Collections
               </a>
             </li>
@@ -69,7 +69,7 @@ const Nav = props => (
                 props.path === "/create-collection" ? "--active" : ""
                 }`}
             >
-              <a className="govuk-header__link" href="createcollection">
+              <a className="govuk-header__link" href={`${process.env.REDIRECT_URL}/createcollection`}>
                 Create Collection
               </a>
             </li>

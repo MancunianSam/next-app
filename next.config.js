@@ -8,5 +8,5 @@ module.exports = {
     return config;
   },
   target: "serverless",
-  assetPrefix: "https://s3-eu-west-2.amazonaws.com/assets.tdr.tna.com"
+  assetPrefix: "https://s3-eu-west-2.amazonaws.com/assets.tdr.tna"
 };

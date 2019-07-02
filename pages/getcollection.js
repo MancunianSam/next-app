@@ -7,7 +7,7 @@ const GetCollection = ({ collections }) => {
     <>
       <Head>
         <link
-          href="https://s3.eu-west-2.amazonaws.com/assets.tdr.tna.com/assets/gov.css"
+          href="https://s3.eu-west-2.amazonaws.com/assets.tdr.tna/assets/gov.css"
           rel="stylesheet"
         />
       </Head>

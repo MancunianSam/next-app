@@ -3,6 +3,7 @@ const reqResMapper = require('next-aws-lambda/lib/compatLayer')
 const jsonwebtoken = require("jsonwebtoken")
 const jwkToPem = require("jwk-to-pem")
 const { URLSearchParams } = require('url')
+const fetch = require('isomorphic-unfetch')
 
 const auth = (event) => {
     if (event.headers.Cookie && event.headers.Cookie.includes("token=")) {
@@ -40,17 +41,21 @@ const getTokenForCode = (event, context, callback, page) => {
         .then(res => res.text())
         .then(text => {
             const token = JSON.parse(text).id_token
+            console.log("Found token")
 
             event.multiValueHeaders = {
                 ...event.headers,
                 'Set-Cookie': `token=${token}`
             }
+
             console.log(event.multiValueHeaders)
+
             const { req, res } = reqResMapper(event, callback)
             res.setHeader('Set-Cookie', `token=${token}`)
             page.render(req, res)
 
-        }).catch(() => {
+        }).catch(async err => {
+            console.log(`Error ${await err}`)
             redirectToHome(callback)
         })
 }
@@ -59,7 +64,7 @@ const redirectToHome = callback => {
     const response = {
         statusCode: 301,
         headers: {
-            Location: 'http://localhost:3000',
+            Location: process.env.REDIRECT_URL,
         }
     };
     callback(null, response)
@@ -79,6 +84,7 @@ module.exports = page => {
             } else {
 
                 auth(event).then(token => {
+                    console.log(`Authorised token is ${token}`)
                     compat(page)(event, context, callback)
 
                 }).catch(err => {
@@ -89,6 +95,7 @@ module.exports = page => {
             }
 
         } else {
+            console.log("Page does not need authorisation")
             compat(page)(event, context, callback)
         }
         // this makes sure the next page renders
