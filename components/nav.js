@@ -5,7 +5,7 @@ const Nav = props => (
     <div className="govuk-header__container govuk-width-container">
       <div className="govuk-header__logo">
         <a
-          href="https://d25oh1q2xkwz8z.cloudfront.net//"
+          href="https://9ofer4y2x6.execute-api.eu-west-2.amazonaws.com/dev/"
           className="govuk-header__link govuk-header__link--homepage"
         >
           <span className="govuk-header__logotype">
@@ -36,7 +36,7 @@ const Nav = props => (
       </div>
       <div className="govuk-header__content">
         <a
-          href="https://d25oh1q2xkwz8z.cloudfront.net/"
+          href="https://9ofer4y2x6.execute-api.eu-west-2.amazonaws.com/dev/"
           className="govuk-header__link govuk-header__link--service-name"
         >
           Transfer Digital Records
@@ -58,7 +58,7 @@ const Nav = props => (
             <li
               className={`govuk-header__navigation-item govuk-header__navigation-item${
                 props.path === "/get-collections" ? "--active" : ""
-              }`}
+                }`}
             >
               <a className="govuk-header__link" href="getcollection">
                 View Collections
@@ -67,7 +67,7 @@ const Nav = props => (
             <li
               className={`govuk-header__navigation-item${
                 props.path === "/create-collection" ? "--active" : ""
-              }`}
+                }`}
             >
               <a className="govuk-header__link" href="createcollection">
                 Create Collection
@@ -76,7 +76,7 @@ const Nav = props => (
             <li className="govuk-header__navigation-item">
               <a
                 className="govuk-header__link"
-                href="https://tdr.auth.eu-west-2.amazoncognito.com/oauth2/authorize?response_type=code&client_id=7tmk95dur3gjqklinuvevgahl9&redirect_uri=https://9ofer4y2x6.execute-api.eu-west-2.amazonaws.com/dev/createcollection"
+                href={`https://tdr.auth.eu-west-2.amazoncognito.com/oauth2/authorize?response_type=code&client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URL}/createcollection`}
               >
                 Sign In
               </a>

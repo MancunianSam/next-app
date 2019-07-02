@@ -55,11 +55,9 @@ const GetCollection = ({ collections }) => {
 
 GetCollection.getInitialProps = async function ({ req }) {
   if (req.headers.cookie && req.headers.cookie.indexOf("token") !== -1) {
-    console.log(req.headers.cookie)
     const token = req.headers.cookie.split("=")[1]
     const res = await fetch('https://rn9sl8cy7f.execute-api.eu-west-2.amazonaws.com/dev/collections', { headers: { Cookie: `token=${token}` } });
     const data = await res.json()
-    console.log(data)
 
     return { collections: data.collections };
   }
@@ -70,3 +68,4 @@ GetCollection.getInitialProps = async function ({ req }) {
 };
 
 export default GetCollection;
+
