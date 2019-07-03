@@ -6,7 +6,7 @@ This is built with next js
 `yarn`
 
 ### Run in development mode
-`yarn dev`
+`yarn dev`   (`offline` for runing locally)
 
 This will hot swap any changes you make while running and reload the browser
 
