@@ -4,7 +4,8 @@
     "dev": "next",
     "build": "next build",
     "deploy": "sls deploy",
-    "offline": "sls offline --stage=local"
+    "offline": "sls offline --stage=local",
+    "offline:docker": "sls offline --stage=docker --host=0.0.0.0"
   },
   "dependencies": {
     "aws-sdk": "^2.478.0",
