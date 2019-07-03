@@ -1,11 +1,12 @@
-const compat = require("next-aws-lambda");
 const reqResMapper = require('next-aws-lambda/lib/compatLayer')
 const jsonwebtoken = require("jsonwebtoken")
 const jwkToPem = require("jwk-to-pem")
 const { URLSearchParams } = require('url')
 const fetch = require('isomorphic-unfetch')
 
-const auth = (event) => {
+const compat = require("next-aws-lambda");
+
+const verifyToken = (event) => {
     if (event.headers.Cookie && event.headers.Cookie.includes("token=")) {
         const token = event.headers.Cookie.split("=")[1]
         if (token) {
@@ -51,7 +52,9 @@ const getTokenForCode = (event, context, callback, page) => {
             console.log(event.multiValueHeaders)
 
             const { req, res } = reqResMapper(event, callback)
-            res.setHeader('Set-Cookie', `token=${token}`)
+            const domain = process.env.IS_OFFLINE ? "localhost" : "amazonaws.com"
+            console.log(domain)
+            res.setHeader('Set-Cookie', `token=${token}; Domain=${domain}`)
             page.render(req, res)
 
         }).catch(async err => {
@@ -77,14 +80,13 @@ const authorisedUrls = [
 
 module.exports = page => {
     const handler = (event, context, callback) => {
-        // do any stuff you like
         if (authorisedUrls.indexOf(event.path) !== -1) {
             if (event.queryStringParameters && event.queryStringParameters.code) {
                 getTokenForCode(event, context, callback, page)
             } else {
 
-                auth(event).then(token => {
-                    console.log(`Authorised token is ${token}`)
+                verifyToken(event).then(token => {
+                    console.log("token is valid")
                     compat(page)(event, context, callback)
 
                 }).catch(err => {
@@ -98,9 +100,6 @@ module.exports = page => {
             console.log("Page does not need authorisation")
             compat(page)(event, context, callback)
         }
-        // this makes sure the next page renders
-        // do any other stuff you like
-
     };
     return handler;
 };

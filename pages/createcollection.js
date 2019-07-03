@@ -16,7 +16,7 @@ const CreateCollection = props => {
           <div className="govuk-grid-column-two-thirds">
             <h1 className="govuk-heading-l">{props.title}</h1>
             <form
-              action="https://rn9sl8cy7f.execute-api.eu-west-2.amazonaws.com/dev/collections"
+              action={`${process.env.API_URL}/collections`}
               method="POST"
             >
               <div className="govuk-form-group">

@@ -6,14 +6,14 @@ provider:
   memorySize: 512
   stage: dev
   region: eu-west-2
-  environment: 
-    REDIRECT_URL: https://wq2djqdgc3.execute-api.eu-west-2.amazonaws.com/dev
-    CLIENT_ID: 7tmk95dur3gjqklinuvevgahl9
+  environment: ${file(env.yml):${self:custom.stage}, file(env.yml):default} 
 
 plugins:
   - serverless-nextjs-plugin
+  - serverless-offline
 
 custom:
+  stage: ${opt:stage, self:provider.stage}
   serverless-nextjs:
     customHandler: ./config/custom.js
     assetsBucketName: assets.tdr.tna
