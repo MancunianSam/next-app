@@ -14,6 +14,7 @@ const Upload = ({ id, token }) => {
       worker.postMessage({ file, id, token })
       worker.addEventListener('message', msg => {
         const newUploaded = uploaded.slice(0)
+        console.log(newUploaded)
         newUploaded.push(msg.data)
         setUploaded(newUploaded)
         console.log(msg)
@@ -38,42 +39,41 @@ const Upload = ({ id, token }) => {
             see this page anyway
           </div>
         </noscript>
-        {uploaded.map(each => {
 
-          return <main className="govuk-main-wrapper">
-            <div className="govuk-grid-row">
-              <div className="govuk-grid-column-two-thirds">
-                <table className="govuk-table">
-                  <caption className="govuk-table__caption">Files Uploaded</caption>
-                  <thead className="govuk-table__head">
-                    <tr className="govuk-table__row">
-                      <th className="govuk-table__header" scope="col">
-                        File Path
+        <main className="govuk-main-wrapper">
+          <div className="govuk-grid-row">
+            <div className="govuk-grid-column-two-thirds">
+              <table className="govuk-table">
+                <caption className="govuk-table__caption">Files Uploaded</caption>
+                <thead className="govuk-table__head">
+                  <tr className="govuk-table__row">
+                    <th className="govuk-table__header" scope="col">
+                      File Path
             </th>
-                      <th className="govuk-table__header" scope="col">
-                        Checksum
+                    <th className="govuk-table__header" scope="col">
+                      Checksum
             </th>
-                      <th className="govuk-table__header" scope="col">
-                        Size
+                    <th className="govuk-table__header" scope="col">
+                      Size
             </th>
-                    </tr>
-                  </thead>
-                  <tbody className="govuk-table__body">
-                    {uploaded.map(each => {
-                      return (
-                        <tr className="govuk-table__row" key={each.id}>
-                          <td className="govuk-table__cell">{each.path}</td>
-                          <td className="govuk-table__cell">{each.checksum.substring(0,10) + "..."}</td>
-                          <td className="govuk-table__cell">{each.size}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+                  </tr>
+                </thead>
+                <tbody className="govuk-table__body">
+                  {uploaded.map(each => {
+                    return (
+                      <tr className="govuk-table__row" key={each.id}>
+                        <td className="govuk-table__cell">{each.path}</td>
+                        <td className="govuk-table__cell">{each.checksum.substring(0, 10) + "..."}</td>
+                        <td className="govuk-table__cell">{each.size}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-          </main>
-        })}
+          </div>
+        </main>
+
         <div className="govuk-form-group">
           <label className="govuk-label" htmlFor="file-upload-1">
             Upload a file
