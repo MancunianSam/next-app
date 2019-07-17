@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Nav from "../components/nav";
+import { WithAuth } from "../auth"
 
 const CreateCollection = props => {
   return (
@@ -42,4 +43,12 @@ const CreateCollection = props => {
   );
 };
 
-export default CreateCollection;
+CreateCollection.getInitialProps = async ({ res, query, token }) => {
+  const domain = process.env.IS_OFFLINE ? "localhost" : "amazonaws.com"
+  console.log(domain)
+  res.setHeader('Set-Cookie', `token=${token}; Domain=${domain}`)
+  return {}
+}
+
+
+export default WithAuth(CreateCollection);

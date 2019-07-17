@@ -15,7 +15,7 @@ const FileUploadArea = props => {
 
     for (let index = 0; index < event.dataTransfer.items.length; index++) {
       const element = event.dataTransfer.items[index];
-      dataTransferItemList.push(element.webkitGetAsEntry());
+      // dataTransferItemList.push(element.webkitGetAsEntry());
     }
     if (
       JSON.stringify(dataTransferItemList) !== JSON.stringify(dataTransferItems)

@@ -4,7 +4,7 @@ provider:
   name: aws
   runtime: nodejs8.10
   memorySize: 512
-  stage: dev
+  stage: test 
   region: eu-west-2
   environment: ${file(env.yml):${self:custom.stage}, file(env.yml):default} 
 
@@ -15,8 +15,7 @@ plugins:
 custom:
   stage: ${opt:stage, self:provider.stage}
   serverless-nextjs:
-    customHandler: ./config/custom.js
-    assetsBucketName: assets.tdr.tna
+    assetsBucketName: assets.test.tdr.tna
     staticDir: ./assets
     routes:
       - src: ./assets/robots.txt

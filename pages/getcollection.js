@@ -1,8 +1,12 @@
 import fetch from 'isomorphic-unfetch';
 import Head from "next/head";
 import Nav from "../components/nav";
+import { WithAuth } from "../auth"
+
 
 const GetCollection = ({ collections }) => {
+  // const worker = new ExampleWorker()
+
   return (
     <>
       <Head>
@@ -67,5 +71,5 @@ GetCollection.getInitialProps = async function ({ req }) {
 
 };
 
-export default GetCollection;
+export default WithAuth(GetCollection);
 

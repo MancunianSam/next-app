@@ -1,11 +1,15 @@
 import React from "react";
-import Link from "next/link";
 import Nav from "../components/nav";
 import Head from "next/head";
 import { WithAuth } from "../auth";
 
 const Home = props => {
-  console.log(props)
+  const onClick = () => {
+    if (window) {
+
+    }
+  }
+
   return (
     < div >
       <Nav />
@@ -17,11 +21,11 @@ const Home = props => {
       </Head>
 
       <div className="hero">
-        <h1 className="title">Welcome to TDR</h1>
+        <h1 onClick={() => onClick()} className="title">Welcome to TDR</h1>
       </div>
     </div >
   )
 };
 
 
-export default WithAuth(Home);
+export default Home;

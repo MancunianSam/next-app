@@ -2,58 +2,24 @@ import { FileUploadArea } from "../components/fileupload";
 import Head from "next/head";
 import AWS from "aws-sdk";
 import Nav from "../components/nav";
+import Worker from "../upload.worker"
 
 const Upload = ({ id, token }) => {
-  const [fileUpdate, setFileUpdate] = React.useState([]);
-  const [uploaded, setUploaded] = React.useState(false);
-  const getCredentials = async () => {
-    return new Promise((resolve, reject) => {
-      const IdentityPoolId = "eu-west-2:4b26364a-3070-4f98-8e86-1e33a1b54d85";
-      const cognitoLoginId =
-        "cognito-idp.eu-west-2.amazonaws.com/eu-west-2_6Mn0M2i9C";
-      AWS.config.region = "eu-west-2";
-      AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: IdentityPoolId,
-        Logins: {
-          [cognitoLoginId]: token
-        }
-      });
-      AWS.config.getCredentials(function (err) {
-        if (err === undefined || err === null) {
-          resolve();
-        } else {
-          reject(err.code);
-        }
-      });
-    });
-  };
+  const [files, setFiles] = React.useState([])
+  const [uploaded, setUploaded] = React.useState([])
+  const upload = () => {
 
-  const upload = async () => {
-    var Bucket = "tdr-files";
-    await getCredentials();
-    var s3 = new AWS.S3({
-      params: {
-        Bucket
-      }
-    });
-    fileUpdate.forEach(update => {
-      s3.upload(
-        {
-          Key: `${id}/${update.id}`,
-          Body: update.file,
-          Bucket
-        },
-        {},
-        function (err) {
-          console.log(err);
-          if (err === null) {
-            setUploaded(true)
-          }
-        }
-      );
-    });
-  };
-
+    for (const file of files) {
+      const worker = new Worker()
+      worker.postMessage({ file, id, token })
+      worker.addEventListener('message', msg => {
+        const newUploaded = uploaded.slice(0)
+        newUploaded.push(msg.data)
+        setUploaded(newUploaded)
+        console.log(msg)
+      });
+    }
+  }
   return (
     <>
       <Nav />
@@ -72,24 +38,51 @@ const Upload = ({ id, token }) => {
             see this page anyway
           </div>
         </noscript>
-        <FileUploadArea
-          onFilesProcessed={files => {
-            const checksumsa = files.map(f => f.checksum).sort();
-            const checksumsb = fileUpdate.map(f => f.checksum).sort();
-            if (JSON.stringify(checksumsa) !== JSON.stringify(checksumsb)) {
-              setFileUpdate(files);
-              console.log(files);
-            }
-          }}
-        />
+        {uploaded.map(each => {
+
+          return <main className="govuk-main-wrapper">
+            <div className="govuk-grid-row">
+              <div className="govuk-grid-column-two-thirds">
+                <table className="govuk-table">
+                  <caption className="govuk-table__caption">Files Uploaded</caption>
+                  <thead className="govuk-table__head">
+                    <tr className="govuk-table__row">
+                      <th className="govuk-table__header" scope="col">
+                        File Path
+            </th>
+                      <th className="govuk-table__header" scope="col">
+                        Checksum
+            </th>
+                      <th className="govuk-table__header" scope="col">
+                        Size
+            </th>
+                    </tr>
+                  </thead>
+                  <tbody className="govuk-table__body">
+                    {uploaded.map(each => {
+                      return (
+                        <tr className="govuk-table__row" key={each.id}>
+                          <td className="govuk-table__cell">{each.path}</td>
+                          <td className="govuk-table__cell">{each.checksum.substring(0,10) + "..."}</td>
+                          <td className="govuk-table__cell">{each.size}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </main>
+        })}
+        <div className="govuk-form-group">
+          <label className="govuk-label" htmlFor="file-upload-1">
+            Upload a file
+          </label>
+          <input className="govuk-file-upload" id="file-upload-1" name="file-upload-1" type="file" webkitdirectory="true" onChange={event => {
+            setFiles(event.target.files)
+          }} />
+        </div>
         <button className="govuk-button" onClick={upload}>Upload</button>
-        {uploaded &&
-          <div className="govuk-panel govuk-panel--confirmation">
-            <h1 className="govuk-panel__title">
-              Files Uploaded
-          </h1>
-          </div>
-        }
       </div>
     </>
   );
