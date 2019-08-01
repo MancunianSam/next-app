@@ -58,14 +58,11 @@ const GetCollection = ({ collections }) => {
 };
 
 GetCollection.getInitialProps = async function ({ req }) {
-  if (req.headers.cookie && req.headers.cookie.indexOf("token") !== -1) {
-    const token = req.headers.cookie.split("=")[1]
-    const res = await fetch(`${process.env.API_URL}/collections`, { headers: { Cookie: `token=${token}` } });
-    const data = await res.json()
+  const res = await fetch(`${process.env.BASE_URL}/api/collections`, { headers: req.headers });
+  const responseJson = await res.json()
+  console.log(responseJson.data.getCollections)
 
-    return { collections: data.collections };
-  }
-  return {}
+  return { collections: responseJson.data.getCollections.collections };
 
 
 
